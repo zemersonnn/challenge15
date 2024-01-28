@@ -1,7 +1,7 @@
 // Creating the map object
 let myMap = L.map("map", {
-    center: [40.7128, -74.0059], 
-    zoom: 11
+    center: [20.7128, -74.0059], 
+    zoom: 3
 }); 
 
 // Adding the tile layer 
@@ -11,10 +11,19 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 // Use this linko tp get the GepJSON data
-let link = " https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
+let link_earthquake = " https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
 
-d3.json(link).then(
+let mapStyle = {
+    color: "white", 
+    fillColor: "green",
+    fillOpactiy: 0.5, 
+    weight:1.5
+};
+
+d3.json(link_earthquake).then(
     function(data) {
-        
-    };
+        L.geoJson(data, {
+            style: mapStyle
+        }).addTo(myMap);
+    }
 );
