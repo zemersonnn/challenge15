@@ -12,6 +12,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Use this link to get the GepJSON data
 var link_earthquake = " https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
 
+let mapStyle = {
+    color: "white",
+    fillColor: "pink",
+    fillOpacity: 0.5,
+    weight: 1.5 
+};
+
 d3.json(link_earthquake, function(data) {
     earthquakeFunction(data.features);
 });
@@ -25,8 +32,8 @@ var marker = [];
 
         var magnitude = info[i].properties.mag
         var lat = info[i].geometry.coordinates[1]
-        var lon = info[i].geometry.coordinates[0]
-        var latlon = [lat, lon]
+        var lng = info[i].geometry.coordinates[0]
+        var latlng = [lat, lng]
         var depth = info[i].geometry.coordinates[2]
 
         var color = "";
@@ -58,14 +65,17 @@ d3.json(link_earthquake).then(
             style:function (feature) {
                 return {
                     color: "white",
-                    fillColor: chooseColor(feature.properties.title),
+                    fillColor: chooseColor(feature.properties.depth),
                     fillOpacity: 0.5,
                     weight: 1.5
                 };
+            }, 
+            onEachFeature: function(feature, layer) {
+                layer.on
             }
         }).addTo(myMap);
     }
-)
+);
     //     marker.push(
     //     L.circle(latlon, {
     //         stroke: false,
@@ -80,6 +90,8 @@ d3.json(link_earthquake).then(
 //   var earthquakes = L.layerGroup(marker)
 
 //   createMap(earthquakes)
-    }
+
+
+}
 
 
