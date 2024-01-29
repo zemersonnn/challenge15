@@ -10,7 +10,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(myMap);
 
 // Use this link to get the GepJSON data
-var link_earthquake = " https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
+var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
 
 let mapStyle = {
     color: "white",
@@ -19,7 +19,7 @@ let mapStyle = {
     weight: 1.5 
 };
 
-d3.json(link_earthquake, function(data) {
+d3.json(link, function(data) {
     earthquakeFunction(data.features);
 });
 
@@ -57,22 +57,28 @@ var marker = [];
         
             color = "purple"
         }
+        
+        markers.push(marker);
     }
+    createMap(L.layerGroup(markers));
 
-d3.json(link_earthquake).then(
+d3.json(link).then(
     function(data) {
         L.geoJson(data, {
             style:function (feature) {
                 return {
                     color: "white",
-                    fillColor: chooseColor(feature.properties.depth),
+                    fillColor: chooseColor(marker),
                     fillOpacity: 0.5,
                     weight: 1.5
                 };
             }, 
-            onEachFeature: function(feature, layer) {
-                layer.on
-            }
+            // onEachFeature: function(feature, layer) {
+            //     layer.on({
+
+            //     })
+            // }
+
         }).addTo(myMap);
     }
 );
@@ -87,11 +93,13 @@ d3.json(link_earthquake).then(
     //       "</h3><hr><p>" + new Date(info[i].properties.time) + "</p>")
     // )
 
-//   var earthquakes = L.layerGroup(marker)
+var earthquakes = L.layerGroup(marker)
 
-//   createMap(earthquakes)
-
-
+createMap(earthquakes);
 }
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson").then(marker);
+
+
+
 
 
