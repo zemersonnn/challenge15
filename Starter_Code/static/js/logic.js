@@ -47,21 +47,39 @@ var marker = [];
             color = "blue"
         }
         else {
+        
             color = "purple"
         }
+    }
 
-        marker.push(
-        L.circle(latlon, {
-            stroke: false,
-            fillOpacity: 50,
-            color: "white",
-            fillColor: color,
-            radius: magnitude*50000
-        }).bindPopup("<h3>" + info[i].properties.title +
-          "</h3><hr><p>" + new Date(info[i].properties.time) + "</p>")
-    )
-  }
-  var earthquakes = L.layerGroup(marker)
+d3.json(link_earthquake).then(
+    function(data) {
+        L.geoJson(data, {
+            style:function (feature) {
+                return {
+                    color: "white",
+                    fillColor: chooseColor(feature.properties.title),
+                    fillOpacity: 0.5,
+                    weight: 1.5
+                };
+            }
+        }).addTo(myMap);
+    }
+)
+    //     marker.push(
+    //     L.circle(latlon, {
+    //         stroke: false,
+    //         fillOpacity: 50,
+    //         color: "white",
+    //         fillColor: color,
+    //         radius: magnitude*50000
+    //     }).bindPopup("<h3>" + info[i].properties.title +
+    //       "</h3><hr><p>" + new Date(info[i].properties.time) + "</p>")
+    // )
 
-  createMap(earthquakes)
-}
+//   var earthquakes = L.layerGroup(marker)
+
+//   createMap(earthquakes)
+    }
+
+
